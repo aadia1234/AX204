@@ -1,4 +1,4 @@
-console.log("working");
+wconsole.log("working");
 console.log("HI MATE")
 
 var c = document.getElementById("myCanvas");
