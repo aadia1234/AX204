@@ -7,6 +7,10 @@ var score = 0;
 function preload() {
     game.load.image("sky", "assets/sky.png");
     game.load.image("ground", "assets/platform.png");
+    game.load.image("star", "assets/star.png");
+    game.load.spritesheet("dude", "assets/dude.png", 32, 48);
+    game.load.spritesheet("baddie", "assets/baddie.png", 32, 32);
+
 }
 
 function create() {
@@ -30,6 +34,27 @@ function create() {
     var ledge = platforms.create(-150, 250, "ground");
     ledge.body.immovable = true;
 
+    //Player
+    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    //animate the sprite
+    player.animations.add("left", {0,1,2,3}, 10, true);
+    player.animations.add("right", {5,6,7,8}, 10, true);
+    game.physics.arcade.enable(player);
+    //Physics properties
+    player.body.bounce.y = 0.2;
+    player.body.gravity.y = 300;
+    player.body.collideWorldBounds = true;
+
+    //Baddie
+    baddie1 = game.add.sprite(750, 20, 'baddie');
+    //animate the sprite
+    baddie1.animations.add("left", {0,1}, 10, true);
+    baddie1.animations.add("right", {2,3}, 10, true);
+    game.physics.arcade.enable(baddie1);
+    //Physics properties
+    baddie1.body.bounce.y = 0.2;
+    baddie1.body.gravity.y = 300;
+    baddie1.body.collideWorldBounds = true;
 }
 
 function update() {
