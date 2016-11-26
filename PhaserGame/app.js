@@ -45,7 +45,7 @@ function create() {
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
 
-    //Baddie
+    //Baddie 1
     baddie1 = game.add.sprite(750, 20, 'baddie');
     //animate the sprite
     baddie1.animations.add("left", [0,1], 10, true);
@@ -55,8 +55,39 @@ function create() {
     baddie1.body.bounce.y = 0.2;
     baddie1.body.gravity.y = 300;
     baddie1.body.collideWorldBounds = true;
+
+    //Keyboard inputs
+    cursors = game.input.keyboard.creatCursorKeys();
 }
 
 function update() {
+    //Make the player and baddie sprite collide with the platform
+    game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(baddie1, platforms);
+    //Player speed reset to 0
+    player.body.velocity.x = 0;
+    // Keyboard events
+    if (cursors.left.isDown) {
+      player.body.velocity.x = -150;
+      player.animations.play("left");
+    } else if (cursors.right.isDown); {
+      player.body.velocity.x = 150;
+      player.animations.play("right");
+    } else {
+      player.animations.stop.();
+      player.frame = 4;
+    }
+    //Allow player to jump
+    if (cursors.up.isDown && player.body.touching.down) {
+      player.body.velocity.y = -300;
+    }
 
+    //Enemy AI
+    if (baddie1.x > 749) {
+      baddie1.animations.play("left");
+      baddie1.body.velocity.x = -120;
+    } else if (baddie1.x < 405) {
+      baddie1.animations.play("right");
+      baddie1.body.velocity.x = 120;
+    }
 }
