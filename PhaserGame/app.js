@@ -57,7 +57,7 @@ function create() {
     baddie1.body.collideWorldBounds = true;
 
     //Keyboard inputs
-    cursors = game.input.keyboard.creatCursorKeys();
+    cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
