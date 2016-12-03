@@ -173,5 +173,5 @@ function loseLife (player, baddie) {
 function loseLife2 (player, baddie) {
   baddie.kill();
   score = score - 5;
-  baddie.reset(10, 20,);
+  baddie.reset(10, 20);
 }
