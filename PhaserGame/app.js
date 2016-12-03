@@ -83,7 +83,7 @@ function create() {
 
     //Create stars
     stars = game.add.physicsGroup();
-    star.enableBody = true
+    stars.enableBody = true
 
     //Loop to create 12 stars
     for (var i = 0; i < 12; i++) {
@@ -157,7 +157,7 @@ function collectStar(player, star) {
   star.kill();
   score++;
   //Create a star to replace killed star
-  star = stars.create(Math.Floor(Math.random() * 750), 0, "star")
+  star = stars.create(Math.floor(Math.random() * 750), 0, "star")
   star.body.gravity.y = 200;
   star.body.bounce.y = Math.random() * 0.9;
 }
