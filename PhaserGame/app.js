@@ -83,7 +83,7 @@ function create() {
 
     //Create stars
     stars = game.add.physicsGroup();
-    star.enablebody = true
+    star.enableBody = true
 
     //Loop to create 12 stars
     for (var i = 0; i < 12; i++) {
@@ -143,7 +143,7 @@ function update() {
     }
 
     //Colisions
-    game.physics.aracde.collide(stars,platforms);
+    game.physics.arcade.collide(stars,platforms);
     //Special collision called overlap - we define what happens
     game.physics.aracde.overlap(player, stars, collectStar, null, this);
     game.physics.aracde.overlap(player, baddie1, collectStar, loseLife, null, this);
