@@ -145,10 +145,10 @@ function update() {
     //Colisions
     game.physics.arcade.collide(stars,platforms);
     //Special collision called overlap - we define what happens
-    game.physics.aracde.overlap(player, stars, collectStar, null, this);
-    game.physics.aracde.overlap(player, baddie1, collectStar, loseLife, null, this);
-    game.physics.aracde.overlap(player, baddie2, loseLife2, collectStar, null, this);
-    game.physics.aracde.overlap(player, baddie3, loseLife, collectStar, null, this);
+    game.physics.arcade.overlap(player, stars, collectStar, null, this);
+    game.physics.arcade.overlap(player, baddie1, collectStar, loseLife, null, this);
+    game.physics.arcade.overlap(player, baddie2, loseLife2, collectStar, null, this);
+    game.physics.arcade.overlap(player, baddie3, loseLife, collectStar, null, this);
 
 }
 
