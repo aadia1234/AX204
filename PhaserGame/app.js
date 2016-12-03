@@ -35,7 +35,7 @@ function create() {
     ledge.body.immovable = true;
 
     //Player
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32r, game.world.height - 150, 'dude');
     //animate the sprite
     player.animations.add('left', [0,1,2,3], 10, true);
     player.animations.add('right', [5,6,7,8], 10, true);
@@ -53,17 +53,52 @@ function create() {
     game.physics.arcade.enable(baddie1);
     //Physics properties
     baddie1.body.bounce.y = 0.2;
-    baddie1.body.gravity.y = 300;
+    baddie1.body.gravity.y = 500;
     baddie1.body.collideWorldBounds = true;
 
+    //Baddie 2
+    baddie2 = game.add.sprite(10, 20, 'baddie');
+    //animate the sprite
+    baddie2.animations.add("left", [0,1], 10, true);
+    baddie2.animations.add("right", [2,3], 10, true);
+    game.physics.arcade.enable(baddie2);
+    //Physics properties
+    baddie2.body.bounce.y = 0.2;
+    baddie2.body.gravity.y = 500;
+    baddie2.body.collideWorldBounds = true;
+
+
+    //Baddie 3
+    baddie3 = game.add.sprite(200, 20, 'baddie');
+    //animate the sprite
+    baddie3.animations.add("left", [0,1], 10, true);
+    baddie3.animations.add("right", [2,3], 10, true);
+    game.physics.arcade.enable(baddie3);
+    //Physics properties
+    baddie3.body.bounce.y = 0.2;
+    baddie3.body.gravity.y = 500;
+    baddie3.body.collideWorldBounds = true;
     //Keyboard inputs
     cursors = game.input.keyboard.createCursorKeys();
+
+    //Create stars
+    stars = game.add.physicsGroup();
+    star.enablebody = true
+
+    //Loop to create 12 stars
+    for (var i = 0; i < 12; i++) {
+      var star = stars.create(i*70, 0, "star");
+      star.body.gravity.y = 200;
+      star.body.bounce.y = Math.random() * 0.9;
+    }
 }
 
 function update() {
     //Make the player and baddie sprite collide with the platform
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(baddie1, platforms);
+    game.physics.arcade.collide(baddie2, platforms);
+    game.physics.arcade.collide(baddie3, platforms);
     //Player speed reset to 0
     player.body.velocity.x = 0;
     // Keyboard events
@@ -83,11 +118,44 @@ function update() {
     }
 
     //Enemy AI
-    if (baddie1.x > 749) {
+    if (baddie1.x > 759) {
       baddie1.animations.play("left");
       baddie1.body.velocity.x = -120;
     } else if (baddie1.x < 405) {
       baddie1.animations.play("right");
       baddie1.body.velocity.x = 120;
     }
+
+    if (baddie2.x > 200) {
+      baddie2.animations.play("left");
+      baddie2.body.velocity.x = -80;
+    } else if (baddie1.x < 20) {
+      baddie2.animations.play("right");
+      baddie2.body.velocity.x = 120;
+    }
+
+    if (baddie3.x > 759) {
+      baddie3.animations.play("left");
+      baddie3.body.velocity.x = -150;
+    } else if (baddie3.x < 200) {
+      baddie3.animations.play("right");
+      baddie3.body.velocity.x = 120;
+    }
+
+    //Colisions
+    game.physics.aracde.collide(stars,platforms);
+    //Special collision called overlap - we define what happens
+    game.physics.aracde.overlap(player, stars, collectStar, null, this);
+    game.physics.aracde.overlap(player, baddie1, collectStar, loseLife, null, this);
+    game.physics.aracde.overlap(player, baddie2, loseLife, collectStar, null, this);
+    game.physics.aracde.overlap(player, baddie3, loseLife, collectStar, null, this);
+
 }
+
+//Define collectStar function
+function collectStar(player, star) {
+
+}
+
+//Define loselife function
+function loseLife (player, baddie)
