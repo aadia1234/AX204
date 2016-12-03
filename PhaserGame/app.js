@@ -166,7 +166,7 @@ function collectStar(player, star) {
 function loseLife (player, baddie) {
   baddie.kill();
   score = score - 5;
-  baddie.reset(750, 20,);
+  baddie.reset(750, 20);
 }
 
 //Define loselife2 function
