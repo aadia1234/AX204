@@ -147,15 +147,31 @@ function update() {
     //Special collision called overlap - we define what happens
     game.physics.aracde.overlap(player, stars, collectStar, null, this);
     game.physics.aracde.overlap(player, baddie1, collectStar, loseLife, null, this);
-    game.physics.aracde.overlap(player, baddie2, loseLife, collectStar, null, this);
+    game.physics.aracde.overlap(player, baddie2, loseLife2, collectStar, null, this);
     game.physics.aracde.overlap(player, baddie3, loseLife, collectStar, null, this);
 
 }
 
 //Define collectStar function
 function collectStar(player, star) {
-
+  star.kill();
+  score++;
+  //Create a star to replace killed star
+  star = stars.create(Math.Floor(Math.random() * 750), 0, "star")
+  star.body.gravity.y = 200;
+  star.body.bounce.y = Math.random() * 0.9;
 }
 
 //Define loselife function
-function loseLife (player, baddie)
+function loseLife (player, baddie) {
+  baddie.kill();
+  score = score - 5;
+  baddie.reset(750, 20,);
+}
+
+//Define loselife2 function
+function loseLife2 (player, baddie) {
+  baddie.kill();
+  score = score - 5;
+  baddie.reset(10, 20,);
+}
