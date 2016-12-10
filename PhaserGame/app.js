@@ -148,7 +148,7 @@ function update() {
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
     game.physics.arcade.overlap(player, baddie1, loseLife, null, this);
     game.physics.arcade.overlap(player, baddie2, loseLife2, null, this);
-    game.physics.arcade.overlap(player, baddie3, loseLife1, null, this);
+    game.physics.arcade.overlap(player, baddie3, loseLife, null, this);
 
 }
 
