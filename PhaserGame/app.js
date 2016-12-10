@@ -1,177 +1,207 @@
 console.log("yay it is working right now!");
 
-//Declare the variables
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create, update: update});
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 var score = 0;
+var life = 3;
 
 function preload() {
-    game.load.image("sky", "assets/sky.png");
-    game.load.image("ground", "assets/platform.png");
-    game.load.image("star", "assets/star.png");
-    game.load.spritesheet("dude", "assets/dude.png", 32, 48);
-    game.load.spritesheet("baddie", "assets/baddie.png", 32, 32);
-
+  game.load.image('sky', 'assets/sky.png');
+  game.load.image('ground', 'assets/platform.png');
+  game.load.image('star', 'assets/star.png');
+  game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+  game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
 }
 
 function create() {
-    // Give game physics engine
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    // Add the sky
-    game.add.sprite(0, 0, "sky");
+  game.physics.startSystem(Phaser.Physics.ARCADE);
+  game.add.sprite(0, 0, 'sky');
 
-    //Physics group
-    platforms = game.add.physicsGroup();
-    platforms.enableBody = true;
+  // Making group of platforms
+  platforms = game.add.physicsGroup();
+  platforms.enableBody = true;
 
-    // Ground
-    var ground = platforms.create(0, game.world.height - 64, "ground");
-    ground.scale.setTo(2, 2);
-    ground.body.immovable = true;
+  // Ground
+  var ground = platforms.create(0, game.world.height - 50, 'ground');
+  ground.scale.setTo(2, 2);
+  ground.body.immovable = true;
 
-    //Ledges
-    var ledge = platforms.create(400, 400, "ground");
-    ledge.body.immovable = true;
-    var ledge = platforms.create(-150, 250, "ground");
-    ledge.body.immovable = true;
+  // Ledges
+  var ledge = platforms.create(400, 400, 'ground');
+  ledge.body.immovable = true;
+  ledge = platforms.create(-150, 250, 'ground');
+  ledge.body.immovable = true;
 
-    //Player
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
-    //animate the sprite
-    player.animations.add('left', [0,1,2,3], 10, true);
-    player.animations.add('right', [5,6,7,8], 10, true);
+  // Player
+  player = game.add.sprite(32, game.world.height - 220, 'dude');
+    // player animations using spritesheet and applies game physics
+    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
     game.physics.arcade.enable(player);
-    //Physics properties
+    // Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
 
-    //Baddie 1
-    baddie1 = game.add.sprite(750, 20, 'baddie');
-    //animate the sprite
-    baddie1.animations.add("left", [0,1], 10, true);
-    baddie1.animations.add("right", [2,3], 10, true);
-    game.physics.arcade.enable(baddie1);
-    //Physics properties
-    baddie1.body.bounce.y = 0.2;
-    baddie1.body.gravity.y = 500;
-    baddie1.body.collideWorldBounds = true;
+  // Enemies
+  enemy1 = game.add.sprite(760, 20, 'baddie')
+    // Enemy animations using spritesheet and applies game physics
+    enemy1.animations.add('left', [0, 1], 10, true);
+    enemy1.animations.add('right', [2, 3], 10, true);
+    game.physics.arcade.enable(enemy1);
+    // Enemy physics properties.
+    enemy1.body.bounce.y = 0.2;
+    enemy1.body.gravity.y = 500;
+    enemy1.body.collideWorldBounds = true;
 
-    //Baddie 2
-    baddie2 = game.add.sprite(10, 20, 'baddie');
-    //animate the sprite
-    baddie2.animations.add("left", [0,1], 10, true);
-    baddie2.animations.add("right", [2,3], 10, true);
-    game.physics.arcade.enable(baddie2);
-    //Physics properties
-    baddie2.body.bounce.y = 0.2;
-    baddie2.body.gravity.y = 500;
-    baddie2.body.collideWorldBounds = true;
+  enemy2 = game.add.sprite(10, 20, 'baddie')
+    // Enemy animations using spritesheet and applies game physics
+    enemy2.animations.add('left', [0, 1], 10, true);
+    enemy2.animations.add('right', [2, 3], 10, true);
+    game.physics.arcade.enable(enemy2);
+    // Enemy physics properties.
+    enemy2.body.bounce.y = 0.2;
+    enemy2.body.gravity.y = 500;
+    enemy2.body.collideWorldBounds = true;
 
+  enemy3 = game.add.sprite(200, 20, 'baddie')
+    // Enemy animations using spritesheet and applies game physics
+    enemy3.animations.add('left', [0, 1], 10, true);
+    enemy3.animations.add('right', [2, 3], 10, true);
+    game.physics.arcade.enable(enemy3);
+    // Enemy physics properties.
+    enemy3.body.bounce.y = 0.2;
+    enemy3.body.gravity.y = 500;
+    enemy3.body.collideWorldBounds = true;
 
-    //Baddie 3
-    baddie3 = game.add.sprite(750, 20, 'baddie');
-    //animate the sprite
-    baddie3.animations.add("left", [0,1], 10, true);
-    baddie3.animations.add("right", [2,3], 10, true);
-    game.physics.arcade.enable(baddie3);
-    //Physics properties
-    baddie3.body.bounce.y = 0.2;
-    baddie3.body.gravity.y = 500;
-    baddie3.body.collideWorldBounds = true;
-    //Keyboard inputs
-    cursors = game.input.keyboard.createCursorKeys();
+  // Creating keyboard entry
+  cursors = game.input.keyboard.createCursorKeys();
 
-    //Create stars
-    stars = game.add.physicsGroup();
-    stars.enableBody = true
+  // Creating stars
+  stars = game.add.physicsGroup();
+  stars.enableBody = true;
+  //  Here we'll create 12 of them evenly spaced apart
+  for (var i = 0; i < 12; i++){
+    //  Create a star inside of the 'stars' group
+    var star = stars.create(i * 70, 0, 'star');
+    //  Let gravity do its thing
+    star.body.gravity.y = 200;
+    //  This just gives each star a slightly random bounce value
+    star.body.bounce.y = 0.7 + Math.random() * 0.2;
+  }
 
-    //Loop to create 12 stars
-    for (var i = 0; i < 12; i++) {
-      var star = stars.create(i*70, 0, "star");
-      star.body.gravity.y = 200;
-      star.body.bounce.y = Math.random() * 0.9;
-    }
+  // Setting style for text
+  var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+    //  The Text is positioned at these coordinates within textbound
+    scorelabel = game.add.text(-60, 0, "Your score is: ", style);
+    scoretext = game.add.text(70, 0, score, style);
+    scorelabel.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    scoretext.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    //  We'll set the bounds to be from x0, y520 (top down) and be 800px wide by 100px high
+    scorelabel.setTextBounds(0, 520, 800, 100);
+    scoretext.setTextBounds(0, 520, 800, 100);
+    //  Doing the same for lives count
+    lifelabel = game.add.text(-300, 0, "Lives: ", style);
+    lifetext = game.add.text(-240, 0, life, style);
+    lifelabel.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    lifetext.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    //  We'll set the bounds to be from x0, y520 (top down) and be 800px wide by 100px high
+    lifelabel.setTextBounds(0, 0, 800, 100);
+    lifetext.setTextBounds(0, 0, 800, 100);
 }
 
 function update() {
-    //Make the player and baddie sprite collide with the platform
-    game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(baddie1, platforms);
-    game.physics.arcade.collide(baddie2, platforms);
-    game.physics.arcade.collide(baddie3, platforms);
-    //Player speed reset to 0
-    player.body.velocity.x = 0;
-    // Keyboard events
-    if (cursors.left.isDown) {
-      player.body.velocity.x = -150;
-      player.animations.play("left");
+  // Collide the player and the stars with the platforms
+  game.physics.arcade.collide(player, platforms);
+  // Collide the enemies and the stars with the platforms
+  game.physics.arcade.collide(enemy1, platforms);
+  game.physics.arcade.collide(enemy2, platforms);
+  game.physics.arcade.collide(enemy3, platforms);
+  // Reset the player’s velocity (movement) if no events
+  player.body.velocity.x = 0;
+
+  // Left key pressed
+  if (cursors.left.isDown){
+        // Move to the left
+        player.body.velocity.x = -150;
+        // Play animation
+        player.animations.play('left');
     } else if (cursors.right.isDown) {
-      player.body.velocity.x = 150;
-      player.animations.play("right");
-    } else {
+      	player.body.velocity.x = 150;
+      	player.animations.play('right');
+  	} else {
+      //  Stand still
       player.animations.stop();
       player.frame = 4;
     }
-    //Allow player to jump
-    if (cursors.up.isDown && player.body.touching.down) {
-      player.body.velocity.y = -300;
-    }
+  //  Allow the player to jump if they are touching the ground.
+  if (cursors.up.isDown && player.body.touching.down){
+    player.body.velocity.y = -300;
+  }
 
-    //Enemy AI
-    if (baddie1.x > 749) {
-      baddie1.animations.play("left");
-      baddie1.body.velocity.x = -120;
-    } else if (baddie1.x < 405) {
-      baddie1.animations.play("right");
-      baddie1.body.velocity.x = 120;
-    }
+  // Enemy AI
+  if (enemy1.x > 759){
+    enemy1.animations.play('left');
+    enemy1.body.velocity.x = -120;
+  } else if (enemy1.x < 405) {
+    enemy1.animations.play('right');
+    enemy1.body.velocity.x = 120;
+  }
+  if (enemy2.x > 200){
+    enemy2.animations.play('left');
+    enemy2.body.velocity.x = -80;
+  } else if (enemy2.x < 21) {
+    enemy2.animations.play('right');
+    enemy2.body.velocity.x = 80;
+  }
+  if (enemy3.x > 759){
+    enemy3.animations.play('left');
+    enemy3.body.velocity.x = -150;
+  } else if (enemy3.x < 201) {
+    enemy3.animations.play('right');
+    enemy3.body.velocity.x = 150;
+  }
 
-    if (baddie2.x > 199) {
-      baddie2.animations.play("left");
-      baddie2.body.velocity.x = -80;
-    } else if (baddie2.x < 25) {
-      baddie2.animations.play("right");
-      baddie2.body.velocity.x = 120;
-    }
-
-    if (baddie3.x > 749) {
-      baddie3.animations.play("left");
-      baddie3.body.velocity.x = -150;
-    } else if (baddie3.x < 199) {
-      baddie3.animations.play("right");
-      baddie3.body.velocity.x = 120;
-    }
-
-    //Colisions
-    game.physics.arcade.collide(stars,platforms);
-    //Special collision called overlap - we define what happens
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
-    game.physics.arcade.overlap(player, baddie1, loseLife, null, this);
-    game.physics.arcade.overlap(player, baddie2, loseLife2, null, this);
-    game.physics.arcade.overlap(player, baddie3, loseLife, null, this);
-
+  // Collide with stars
+  game.physics.arcade.collide(stars, platforms);
+  // Calls collectStar function when overlaps
+  game.physics.arcade.overlap(player, stars, collectStar, null, this);
+  // Stars collide with platforms
+  game.physics.arcade.collide(stars, platforms);
+  // Player triggers loseLife when contact with enemies
+  game.physics.arcade.overlap(player, enemy1, loseLife, null, this)
+  game.physics.arcade.overlap(player, enemy2, loseLifeLeft, null, this)
+  game.physics.arcade.overlap(player, enemy3, loseLife, null, this)
 }
 
-//Define collectStar function
-function collectStar(player, star) {
+// Defining collectStar function
+function collectStar (player, star) {
+  // Removes the star from the screen
   star.kill();
-  score++;
-  //Create a star to replace killed star
-  star = stars.create(Math.floor(Math.random() * 750), 0, "star")
+  // Updating score variable
+  score = score + 1;
+  // Reflecting in the text
+  scoretext.setText(score);
+
+  // Create new star
+  star = stars.create(Math.floor(Math.random() * 750), 0, 'star');
   star.body.gravity.y = 200;
-  star.body.bounce.y = Math.random() * 0.9;
+  star.body.bounce.y = 0.7 + Math.random() * 0.2;
 }
 
-//Define loselife function
-function loseLife (player, baddie) {
-  baddie.kill();
-  score = score - 5;
-  baddie.reset(750, 20);
+
+// Defining loseLife
+function loseLife (player, enemy) {
+  console.log('loselife working again');
+  enemy.kill();
+  life = life - 1;
+  lifetext.setText(life);
+  enemy.reset(760, 20);
 }
 
-//Define loselife2 function
-function loseLife2 (player, baddie) {
-  baddie.kill();
-  score = score - 5;
-  baddie.reset(10, 20);
+function loseLifeLeft (player, enemy) {
+  console.log('loselife working again');
+  enemy.kill();
+  life = life - 1;
+  lifetext.setText(life);
+  enemy.reset(10, 20);
 }
