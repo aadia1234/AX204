@@ -69,7 +69,7 @@ function create() {
 
 
     //Baddie 3
-    baddie3 = game.add.sprite(200, 20, 'baddie');
+    baddie3 = game.add.sprite(750, 20, 'baddie');
     //animate the sprite
     baddie3.animations.add("left", [0,1], 10, true);
     baddie3.animations.add("right", [2,3], 10, true);
@@ -129,7 +129,7 @@ function update() {
     if (baddie2.x > 199) {
       baddie2.animations.play("left");
       baddie2.body.velocity.x = -80;
-    } else if (baddie1.x < 25) {
+    } else if (baddie2.x < 25) {
       baddie2.animations.play("right");
       baddie2.body.velocity.x = 120;
     }
