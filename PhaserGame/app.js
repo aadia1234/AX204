@@ -1,4 +1,4 @@
-console.log("working");
+console.log("yay it is working right now!");
 
 //Declare the variables
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create, update: update});
@@ -148,7 +148,7 @@ function update() {
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
     game.physics.arcade.overlap(player, baddie1, loseLife, null, this);
     game.physics.arcade.overlap(player, baddie2, loseLife2, null, this);
-    game.physics.arcade.overlap(player, baddie3, loseLife, null, this);
+    game.physics.arcade.overlap(player, baddie3, loseLife1, null, this);
 
 }
 
